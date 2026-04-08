@@ -155,7 +155,7 @@ input{margin:4px 0;padding:8px;width:100%;background:#1a2235;color:var(--text);b
 
 <script>
 // ============= CONFIG - CHANGE THIS URL =============
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby4W9fpy3p2X2xXVIU5Xfsl8bZX1yt7LjwiZwhqO9vGgxXC9T4HKCk5H2GJKomc60ZX-g/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbws0gYOXxpfWKL8W0X3lV85I3uzXAop_LjiOuLBoXWEWFCfTqzKej9MchJ5o88kdaehBg/exec';
 
 let data = [];
 let editIndex = null;
@@ -390,19 +390,19 @@ function renderHighlight() {
     return;
   }
   
-  let best = validData.reduce((a, b) => a.tw[3] > b.tw[3] ? a : b);
-  let worst = validData.reduce((a, b) => a.tw[3] < b.tw[3] ? a : b);
+  let best = validData.reduce((a, b) => a.tw[activeTW] > b.tw[activeTW] ? a : b);
+  let worst = validData.reduce((a, b) => a.tw[activeTW] < b.tw[activeTW] ? a : b);
   let avg = calcAverage();
   
-  let bestLabel = getCategory(best.tw[3]);
-  let worstLabel = getCategory(worst.tw[3]);
+  let bestLabel = getCategory(best.tw[activeTW]);
+  let worstLabel = getCategory(worst.tw[activeTW]);
   
   let html = `
-    <li>🏆 <b>${best.name}</b> (${bestLabel.tw[activeTw]})</li>
-    <li>⚠️ <b>${worst.name}</b> (${worstLabel.tw[activeTw]})</li>
+    <li>🏆 <b>${best.name}</b> (${bestLabel})</li>
+    <li>⚠️ <b>${worst.name}</b> (${worstLabel})</li>
     <li>📈 Rata-rata KPMR: <b>${avg}</b></li>
-    <li>⬆️ Nilai KPMR tertinggi: <b>${best.tw[activeTw]}</b></li>
-    <li>⬇️ Nilai KPMR terendah: <b>${worst.tw[activeTw]}</b></li>
+    <li>⬆️ Nilai KPMR tertinggi: <b>${best.tw[activeTW]}</b></li>
+    <li>⬇️ Nilai KPMR terendah: <b>${worst.tw[activeTW]}</b></li>
   `;
   
   document.getElementById('highlight').innerHTML = html;
@@ -453,7 +453,7 @@ function renderTable(filteredData = data) {
       let cat = getCategory(d.tw[activeTW]);
       let statusClass = d.tw[activeTW] >= 85 ? 'good' : (d.tw[activeTW] >= 75 ? 'warn' : 'bad');
       let statusLabel = d.tw[activeTW] >= 85 ? 'Baik' : (d.tw[activeTW] >= 75 ? 'Perhatian' : 'Bermasalah');
-      let trendIcon = d.tw[activeTW] > d.tw[2] ? '↑' : (d.tw[activeTW] < d.tw[2] ? '↓' : '→');
+      let trendIcon = d.tw[activeTW] > d.tw[activeTW] ? '↑' : (d.tw[activeTW] < d.tw[activeTW] ? '↓' : '→');
       
       rows += `<tr style="background:rgba(16,185,129,0.05)">
         <td>${d.name}</td>
@@ -490,8 +490,8 @@ function renderRiskFlag() {
     risks = critical;
   } else {
     risks = [...data]
-      .filter(d => d.tw[3] > 0)
-      .sort((a, b) => a.tw[3] - b.tw[3])
+      .filter(d => d.tw[activeTW] > 0)
+      .sort((a, b) => a.tw[activeTW] - b.tw[activeTW])
       .slice(0, 5);
   }
   
