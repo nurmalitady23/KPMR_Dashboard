@@ -398,11 +398,11 @@ function renderHighlight() {
   let worstLabel = getCategory(worst.tw[3]);
   
   let html = `
-    <li>🏆 <b>${best.name}</b> (${bestLabel})</li>
-    <li>⚠️ <b>${worst.name}</b> (${worstLabel})</li>
+    <li>🏆 <b>${best.name}</b> (${bestLabel.tw[activeTw]})</li>
+    <li>⚠️ <b>${worst.name}</b> (${worstLabel.tw[activeTw]})</li>
     <li>📈 Rata-rata KPMR: <b>${avg}</b></li>
-    <li>⬆️ Nilai KPMR tertinggi: <b>${best.tw[3]}</b></li>
-    <li>⬇️ Nilai KPMR terendah: <b>${worst.tw[3]}</b></li>
+    <li>⬆️ Nilai KPMR tertinggi: <b>${best.tw[activeTw]}</b></li>
+    <li>⬇️ Nilai KPMR terendah: <b>${worst.tw[activeTw]}</b></li>
   `;
   
   document.getElementById('highlight').innerHTML = html;
