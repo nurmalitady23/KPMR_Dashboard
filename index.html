@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -39,53 +40,53 @@ input{margin:4px 0;padding:8px;width:100%;background:#1a2235;color:var(--text);b
 <div class="wrapper">
 
 <div class="status-bar">
-  <div>
-    <span id="connectionStatus">🔴 Connecting...</span>
-    <span id="lastSync" style="font-size:12px;color:#9ca3af;margin-left:10px">Last sync: Never</span>
-  </div>
-  <button class="btn-sync" onclick="syncData()">🔄 Sync Now</button>
+<div>
+<span id="connectionStatus">🔴 Connecting...</span>
+<span id="lastSync" style="font-size:12px;color:#9ca3af;margin-left:10px">Last sync: Never</span>
+</div>
+<button class="btn-sync" onclick="syncData()">🔄 Sync Now</button>
 </div>
 
 <div class="loading" id="loadingSpinner">⏳ Loading data from Google Sheets...</div>
 
 <h1 style="display:flex;justify-content:space-between;align-items:center">
-  <span id="mainTitle">KPMR Unit Kerja Tahun 2025</span>
-  <div style="display:flex;gap:6px;align-items:center">
-    <select id="yearFilter" onchange="setYear(this.value)" style="padding:6px;border-radius:8px;background:#1a2235;color:#fff;border:1px solid var(--border)">
-      <option value="2025">2025</option>
-      <option value="2026">2026</option>
-    </select>
-    <button onclick="setTW(0)">TW I</button>
-    <button onclick="setTW(1)">TW II</button>
-    <button onclick="setTW(2)">TW III</button>
-    <button onclick="setTW(3)">TW IV</button>
-  </div>
+<span id="mainTitle">KPMR Unit Kerja Tahun 2025</span>
+<div style="display:flex;gap:6px;align-items:center">
+<select id="yearFilter" onchange="setYear(this.value)" style="padding:6px;border-radius:8px;background:#1a2235;color:#fff;border:1px solid var(--border)">
+<option value="2025">2025</option>
+<option value="2026">2026</option>
+</select>
+<button onclick="setTW(0)">TW I</button>
+<button onclick="setTW(1)">TW II</button>
+<button onclick="setTW(2)">TW III</button>
+<button onclick="setTW(3)">TW IV</button>
+</div>
 </h1>
 
 <button class="btn-add" onclick="openForm()">+ Tambah Data</button>
 
 <div class="card">
-  <div class="big" id="overall"></div>
-  <div id="avgLabel">Rata-rata KPMR TW IV</div>
+<div class="big" id="overall"></div>
+<div id="avgLabel">Rata-rata KPMR TW IV</div>
 </div>
 
 <div class="grid" style="grid-template-columns:repeat(4,1fr)">
-  <div class="card" onclick="filterBySummary('good')" style="cursor:pointer">
-    <div>Baik</div>
-    <div class="big" id="countGood" style="color:var(--green)"></div>
-  </div>
-  <div class="card" onclick="filterBySummary('warn')" style="cursor:pointer">
-    <div>Perhatian</div>
-    <div class="big" id="countWarn" style="color:var(--yellow)"></div>
-  </div>
-  <div class="card" onclick="filterBySummary('bad')" style="cursor:pointer">
-    <div>Bermasalah</div>
-    <div class="big" id="countBad" style="color:var(--red)"></div>
-  </div>
-  <div class="card" onclick="resetFilter()" style="cursor:pointer">
-    <div>Total</div>
-    <div class="big" id="countTotal"></div>
-  </div>
+<div class="card" onclick="filterBySummary('good')" style="cursor:pointer">
+<div>Baik</div>
+<div class="big" id="countGood" style="color:var(--green)"></div>
+</div>
+<div class="card" onclick="filterBySummary('warn')" style="cursor:pointer">
+<div>Perhatian</div>
+<div class="big" id="countWarn" style="color:var(--yellow)"></div>
+</div>
+<div class="card" onclick="filterBySummary('bad')" style="cursor:pointer">
+<div>Bermasalah</div>
+<div class="big" id="countBad" style="color:var(--red)"></div>
+</div>
+<div class="card" onclick="resetFilter()" style="cursor:pointer">
+<div>Total</div>
+<div class="big" id="countTotal"></div>
+</div>
 </div>
 
 <div class="card">
@@ -119,8 +120,8 @@ input{margin:4px 0;padding:8px;width:100%;background:#1a2235;color:var(--text);b
 </div>
 <div class="card">
 <h3 style="display:flex;justify-content:space-between;align-items:center">
-  <span id="trendTitle">Trend KPMR - Korporat</span>
-  <button onclick="resetTrend()">Korporat</button>
+<span id="trendTitle">Trend KPMR - Korporat</span>
+<button onclick="resetTrend()">Korporat</button>
 </h3>
 <canvas id="trendChart" height="140"></canvas>
 </div>
@@ -128,10 +129,10 @@ input{margin:4px 0;padding:8px;width:100%;background:#1a2235;color:var(--text);b
 
 <div class="card">
 <h3 style="display:flex;justify-content:space-between;align-items:center">
-  <span id="dataUnitTitle">Data Unit Kerja</span>
-  <label style="font-size:12px">
-    <input type="checkbox" id="toggleScore" onchange="toggleScore()"> Tampilkan Nilai
-  </label>
+<span id="dataUnitTitle">Data Unit Kerja</span>
+<label style="font-size:12px">
+<input type="checkbox" id="toggleScore" onchange="toggleScore()"> Tampilkan Nilai
+</label>
 </h3>
 <input placeholder="Cari unit..." oninput="filterTable(this.value)">
 <table id="table"></table>
@@ -168,410 +169,412 @@ let isConnected = false;
 
 // ============= GOOGLE SHEETS SYNC =============
 function syncData() {
-  document.getElementById('loadingSpinner').style.display = 'block';
-  
-  fetch(APPS_SCRIPT_URL)
-    .then(response => {
-      if (!response.ok) throw new Error('Network error: ' + response.status);
-      return response.json();
-    })
-    .then(result => {
-      document.getElementById('loadingSpinner').style.display = 'none';
-      
-      // Parse data from your sheet structure
-      data = result.map(row => {
-        // Filter by active year
-        if (parseInt(row.tahun) !== parseInt(activeYear)) return null;
-        
-        return {
-          name: row.unit_kerja || row[2],
-          dir: row.dir || row[3],
-          tw: [
-            parseFloat(row.tw1 || row[5]) || 0,
-            parseFloat(row.tw2 || row[6]) || 0,
-            parseFloat(row.tw3 || row[7]) || 0,
-            parseFloat(row.tw4 || row[8]) || 0
-          ],
-          kode: row.kode_unit || row[1],
-          tahun: row.tahun || row[4]
-        };
-      }).filter(x => x !== null);
-      
-      console.log('Data loaded:', data);
-      isConnected = true;
-      document.getElementById('connectionStatus').innerHTML = '🟢 Connected to Google Sheets';
-      document.getElementById('lastSync').innerText = 'Last sync: ' + new Date().toLocaleTimeString();
-      render();
-    })
-    .catch(error => {
-      document.getElementById('loadingSpinner').style.display = 'none';
-      console.error('Error:', error);
-      document.getElementById('connectionStatus').innerHTML = '🔴 Connection Failed: ' + error.message;
-      isConnected = false;
-    });
+document.getElementById('loadingSpinner').style.display = 'block';
+
+fetch(APPS_SCRIPT_URL)
+.then(response => {
+if (!response.ok) throw new Error('Network error: ' + response.status);
+return response.json();
+})
+.then(result => {
+document.getElementById('loadingSpinner').style.display = 'none';
+
+// Parse data from your sheet structure
+data = result.map(row => {
+// Filter by active year
+if (parseInt(row.tahun) !== parseInt(activeYear)) return null;
+
+return {
+name: row.unit_kerja || row[2],
+dir: row.dir || row[3],
+tw: [
+parseFloat(row.tw1 || row[5]) || 0,
+parseFloat(row.tw2 || row[6]) || 0,
+parseFloat(row.tw3 || row[7]) || 0,
+parseFloat(row.tw4 || row[8]) || 0
+],
+kode: row.kode_unit || row[1],
+tahun: row.tahun || row[4]
+};
+}).filter(x => x !== null);
+
+console.log('Data loaded:', data);
+isConnected = true;
+document.getElementById('connectionStatus').innerHTML = '🟢 Connected to Google Sheets';
+document.getElementById('lastSync').innerText = 'Last sync: ' + new Date().toLocaleTimeString();
+render();
+})
+.catch(error => {
+document.getElementById('loadingSpinner').style.display = 'none';
+console.error('Error:', error);
+document.getElementById('connectionStatus').innerHTML = '🔴 Connection Failed: ' + error.message;
+isConnected = false;
+});
 }
 
 function appendToGoogleSheets(unit_kerja, dir, tw1, tw2, tw3, tw4) {
-  document.getElementById('loadingSpinner').style.display = 'block';
-  
-  const formData = new FormData();
-  formData.append('action', 'add');
-  formData.append('unit_kerja', unit_kerja);
-  formData.append('dir', dir);
-  formData.append('tahun', activeYear);
-  formData.append('tw1', tw1);
-  formData.append('tw2', tw2);
-  formData.append('tw3', tw3);
-  formData.append('tw4', tw4);
-  
-  fetch(APPS_SCRIPT_URL, {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => response.json())
-  .then(result => {
-    document.getElementById('loadingSpinner').style.display = 'none';
-    if (result.success) {
-      console.log('Data added successfully');
-      alert('Data berhasil ditambahkan!');
-      syncData();
-    } else {
-      alert('Error: ' + result.message);
-    }
-  })
-  .catch(error => {
-    document.getElementById('loadingSpinner').style.display = 'none';
-    console.error('Error:', error);
-    alert('Error adding data: ' + error.message);
-  });
+document.getElementById('loadingSpinner').style.display = 'block';
+
+const formData = new FormData();
+formData.append('action', 'add');
+formData.append('unit_kerja', unit_kerja);
+formData.append('dir', dir);
+formData.append('tahun', activeYear);
+formData.append('tw1', tw1);
+formData.append('tw2', tw2);
+formData.append('tw3', tw3);
+formData.append('tw4', tw4);
+
+fetch(APPS_SCRIPT_URL, {
+method: 'POST',
+body: formData
+})
+.then(response => response.json())
+.then(result => {
+document.getElementById('loadingSpinner').style.display = 'none';
+if (result.success) {
+console.log('Data added successfully');
+alert('Data berhasil ditambahkan!');
+syncData();
+} else {
+alert('Error: ' + result.message);
+}
+})
+.catch(error => {
+document.getElementById('loadingSpinner').style.display = 'none';
+console.error('Error:', error);
+alert('Error adding data: ' + error.message);
+});
 }
 
 // ============= DASHBOARD LOGIC =============
 function calcAverage() {
-  if (data.length === 0) return '0.00';
-  let validData = data.filter(d => d.tw[activeTW] > 0);
-  if (validData.length === 0) return '0.00';
-  let total = validData.reduce((sum, d) => sum + d.tw[activeTW], 0);
-  return (total / validData.length).toFixed(2);
+if (data.length === 0) return '0.00';
+let validData = data.filter(d => d.tw[activeTW] > 0);
+if (validData.length === 0) return '0.00';
+let total = validData.reduce((sum, d) => sum + d.tw[activeTW], 0);
+return (total / validData.length).toFixed(2);
 }
 
 function getCategory(val) {
-  if (val > 90) return 'strong';
-  if (val >= 85) return 'satisfactory';
-  if (val >= 80) return 'fair';
-  if (val >= 75) return 'marginal';
-  return 'unsatisfactory';
+if (val > 90) return 'strong';
+if (val >= 85) return 'satisfactory';
+if (val >= 80) return 'fair';
+if (val >= 75) return 'marginal';
+return 'unsatisfactory';
 }
 
 function render() {
-  document.getElementById('mainTitle').innerText = 'KPMR Unit Kerja Tahun ' + activeYear;
-  document.getElementById('overall').innerText = calcAverage();
-  
-  let twNames = ['TW I', 'TW II', 'TW III', 'TW IV'];
-  document.getElementById('avgLabel').innerText = 'Rata-rata KPMR ' + twNames[activeTW];
-  
-  renderTrend();
-  renderSummary();
-  renderDirChart();
-  renderHighlight();
-  renderRiskFlag();
-  renderTable();
+document.getElementById('mainTitle').innerText = 'KPMR Unit Kerja Tahun ' + activeYear;
+document.getElementById('overall').innerText = calcAverage();
+
+let twNames = ['TW I', 'TW II', 'TW III', 'TW IV'];
+document.getElementById('avgLabel').innerText = 'Rata-rata KPMR ' + twNames[activeTW];
+
+renderTrend();
+renderSummary();
+renderDirChart();
+renderHighlight();
+renderRiskFlag();
+renderTable();
 }
 
 function renderTrend() {
-  let title = document.getElementById('trendTitle');
-  if (trendFilter && trendFilter.length > 0) {
-    let dir = trendFilter[0].dir;
-    if (title) title.innerText = 'Trend KPMR - ' + dir;
-  } else {
-    if (title) title.innerText = 'Trend KPMR - Korporat';
-  }
-  
-  if (trendChart) trendChart.destroy();
-  
-  let source = trendFilter ? trendFilter : data;
-  let avg = [0, 1, 2, 3].map(i => {
-    let vals = source.map(d => d.tw[i]).filter(v => v > 0);
-    return vals.length > 0 ? (vals.reduce((s, d) => s + d, 0) / vals.length).toFixed(2) : 0;
-  });
-  
-  let colors = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4"];
-  let lineColor = '#3b82f6';
-  if (trendFilter && trendFilter.length > 0) {
-    let dir = trendFilter[0].dir;
-    let dirs = [...new Set(data.map(d => d.dir))];
-    let dirIndex = dirs.indexOf(dir);
-    lineColor = colors[dirIndex % colors.length];
-  }
-  
-  let ctx2 = document.getElementById('trendChart').getContext('2d');
-  trendChart = new Chart(ctx2, {
-    type: 'line',
-    data: {
-      labels: ['TW1', 'TW2', 'TW3', 'TW4'],
-      datasets: [{
-        data: avg,
-        borderColor: lineColor,
-        backgroundColor: lineColor,
-        tension: 0.4,
-        pointRadius: 4,
-        pointHoverRadius: 6,
-        fill: false
-      }]
-    },
-    options: {
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: false, min: 0, max: 100 } }
-    }
-  });
+let title = document.getElementById('trendTitle');
+if (trendFilter && trendFilter.length > 0) {
+let dir = trendFilter[0].dir;
+if (title) title.innerText = 'Trend KPMR - ' + dir;
+} else {
+if (title) title.innerText = 'Trend KPMR - Korporat';
+}
+
+if (trendChart) trendChart.destroy();
+
+let source = trendFilter ? trendFilter : data;
+let avg = [0, 1, 2, 3].map(i => {
+let vals = source.map(d => d.tw[i]).filter(v => v > 0);
+return vals.length > 0 ? (vals.reduce((s, d) => s + d, 0) / vals.length).toFixed(2) : 0;
+});
+
+let colors = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4"];
+let lineColor = '#3b82f6';
+if (trendFilter && trendFilter.length > 0) {
+let dir = trendFilter[0].dir;
+let dirs = [...new Set(data.map(d => d.dir))];
+let dirIndex = dirs.indexOf(dir);
+lineColor = colors[dirIndex % colors.length];
+}
+
+let ctx2 = document.getElementById('trendChart').getContext('2d');
+trendChart = new Chart(ctx2, {
+type: 'line',
+data: {
+labels: ['TW1', 'TW2', 'TW3', 'TW4'],
+datasets: [{
+data: avg,
+borderColor: lineColor,
+backgroundColor: lineColor,
+tension: 0.4,
+pointRadius: 4,
+pointHoverRadius: 6,
+fill: false
+}]
+},
+options: {
+plugins: { legend: { display: false } },
+scales: { y: { beginAtZero: false, min: 0, max: 100 } }
+}
+});
 }
 
 function renderDirChart() {
-  if (dirChart) dirChart.destroy();
-  
-  let map = {};
-  data.forEach(d => {
-    if (!map[d.dir]) map[d.dir] = [];
-    map[d.dir].push(d.tw[activeTW]);
-  });
-  
-  let labels = Object.keys(map);
-  let vals = labels.map(k => {
-    let vals = map[k].filter(v => v > 0);
-    return vals.length > 0 ? (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2) : 0;
-  });
-  
-  let colors = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4"];
-  
-  let ctx3 = document.getElementById('dirChart').getContext('2d');
-  dirChart = new Chart(ctx3, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: [{
-        data: vals,
-        backgroundColor: labels.map((_, i) => colors[i % colors.length])
-      }]
-    },
-    options: {
-      plugins: { legend: { display: false } },
-      onClick: (evt, elements) => {
-        if (elements.length > 0) {
-          let index = elements[0].index;
-          let dir = labels[index];
-          drillDownDirektorat(dir);
-        }
-      }
-    }
-  });
+if (dirChart) dirChart.destroy();
+
+let map = {};
+data.forEach(d => {
+if (!map[d.dir]) map[d.dir] = [];
+map[d.dir].push(d.tw[activeTW]);
+});
+
+let labels = Object.keys(map);
+let vals = labels.map(k => {
+let vals = map[k].filter(v => v > 0);
+return vals.length > 0 ? (vals.reduce((a, b) => a + b, 0) / vals.length).toFixed(2) : 0;
+});
+
+let colors = ["#3b82f6", "#10b981", "#f59e0b", "#ef4444", "#8b5cf6", "#06b6d4"];
+
+let ctx3 = document.getElementById('dirChart').getContext('2d');
+dirChart = new Chart(ctx3, {
+type: 'bar',
+data: {
+labels: labels,
+datasets: [{
+data: vals,
+backgroundColor: labels.map((_, i) => colors[i % colors.length])
+}]
+},
+options: {
+plugins: { legend: { display: false } },
+onClick: (evt, elements) => {
+if (elements.length > 0) {
+let index = elements[0].index;
+let dir = labels[index];
+drillDownDirektorat(dir);
+}
+}
+}
+});
 }
 
 function drillDownDirektorat(dir) {
-  let filtered = data.filter(d => d.dir === dir);
-  trendFilter = filtered;
-  renderTrend();
-  renderTable(filtered);
-  setTimeout(() => {
-    document.getElementById('table').scrollIntoView({ behavior: 'smooth' });
-  }, 100);
-  let title = document.getElementById('dataUnitTitle');
-  if (title) title.innerText = 'Data Unit Kerja (' + dir + ')';
+let filtered = data.filter(d => d.dir === dir);
+trendFilter = filtered;
+renderTrend();
+renderTable(filtered);
+setTimeout(() => {
+document.getElementById('table').scrollIntoView({ behavior: 'smooth' });
+}, 100);
+let title = document.getElementById('dataUnitTitle');
+if (title) title.innerText = 'Data Unit Kerja (' + dir + ')';
 }
 
 function resetTrend() {
-  trendFilter = null;
-  render();
+trendFilter = null;
+render();
 }
 
 function renderHighlight() {
-  let validData = data.filter(d => d.tw[3] > 0);
-  if (validData.length === 0) {
-    document.getElementById('highlight').innerHTML = '<li>No data available</li>';
-    return;
-  }
-  
-  let best = validData.reduce((a, b) => a.tw[activeTW] > b.tw[activeTW] ? a : b);
-  let worst = validData.reduce((a, b) => a.tw[activeTW] < b.tw[activeTW] ? a : b);
-  let avg = calcAverage();
-  
-  let bestLabel = getCategory(best.tw[activeTW]);
-  let worstLabel = getCategory(worst.tw[activeTW]);
-  
-  let html = `
-    <li>🏆 <b>${best.name}</b> (${bestLabel})</li>
-    <li>⚠️ <b>${worst.name}</b> (${worstLabel})</li>
-    <li>📈 Rata-rata KPMR: <b>${avg}</b></li>
-    <li>⬆️ Nilai KPMR tertinggi: <b>${best.tw[activeTW]}</b></li>
-    <li>⬇️ Nilai KPMR terendah: <b>${worst.tw[activeTW]}</b></li>
-  `;
-  
-  document.getElementById('highlight').innerHTML = html;
+let validData = data.filter(d => d.tw[3] > 0);
+if (validData.length === 0) {
+document.getElementById('highlight').innerHTML = '<li>No data available</li>';
+return;
+}
+
+let best = validData.reduce((a, b) => a.tw[activeTW] > b.tw[activeTW] ? a : b);
+let worst = validData.reduce((a, b) => a.tw[activeTW] < b.tw[activeTW] ? a : b);
+let avg = calcAverage();
+
+let bestLabel = getCategory(best.tw[activeTW]);
+let worstLabel = getCategory(worst.tw[activeTW]);
+
+let html = `
+<li>🏆 <b>${best.name}</b> (${bestLabel})</li>
+<li>⚠️ <b>${worst.name}</b> (${worstLabel})</li>
+<li>📈 Rata-rata KPMR: <b>${avg}</b></li>
+<li>⬆️ Nilai KPMR tertinggi: <b>${best.tw[activeTW]}</b></li>
+<li>⬇️ Nilai KPMR terendah: <b>${worst.tw[activeTW]}</b></li>
+`;
+
+document.getElementById('highlight').innerHTML = html;
 }
 
 function renderSummary() {
-  let good = data.filter(d => d.tw[activeTW] >= 85).length;
-  let warn = data.filter(d => d.tw[activeTW] >= 75 && d.tw[activeTW] < 85).length;
-  let bad = data.filter(d => d.tw[activeTW] < 75 && d.tw[activeTW] > 0).length;
-  let total = data.filter(d => d.tw[activeTW] > 0).length;
-  
-  document.getElementById('countGood').innerText = good;
-  document.getElementById('countWarn').innerText = warn;
-  document.getElementById('countBad').innerText = bad;
-  document.getElementById('countTotal').innerText = total;
+let good = data.filter(d => d.tw[activeTW] >= 85).length;
+let warn = data.filter(d => d.tw[activeTW] >= 75 && d.tw[activeTW] < 85).length;
+let bad = data.filter(d => d.tw[activeTW] < 75 && d.tw[activeTW] > 0).length;
+let total = data.filter(d => d.tw[activeTW] > 0).length;
+
+document.getElementById('countGood').innerText = good;
+document.getElementById('countWarn').innerText = warn;
+document.getElementById('countBad').innerText = bad;
+document.getElementById('countTotal').innerText = total;
 }
 
 function filterBySummary(type) {
-  let filtered = [];
-  if (type === 'good') filtered = data.filter(d => d.tw[activeTW] >= 85);
-  if (type === 'warn') filtered = data.filter(d => d.tw[activeTW] >= 75 && d.tw[activeTW] < 85);
-  if (type === 'bad') filtered = data.filter(d => d.tw[activeTW] < 75 && d.tw[activeTW] > 0);
-  
-  renderTable(filtered);
-  setTimeout(() => {
-    document.getElementById('table').scrollIntoView({ behavior: 'smooth' });
-  }, 100);
-  let title = document.getElementById('dataUnitTitle');
-  if (title) title.innerText = 'Data Unit Kerja (Filtered)';
+let filtered = [];
+if (type === 'good') filtered = data.filter(d => d.tw[activeTW] >= 85);
+if (type === 'warn') filtered = data.filter(d => d.tw[activeTW] >= 75 && d.tw[activeTW] < 85);
+if (type === 'bad') filtered = data.filter(d => d.tw[activeTW] < 75 && d.tw[activeTW] > 0);
+
+renderTable(filtered);
+setTimeout(() => {
+document.getElementById('table').scrollIntoView({ behavior: 'smooth' });
+}, 100);
+let title = document.getElementById('dataUnitTitle');
+if (title) title.innerText = 'Data Unit Kerja (Filtered)';
 }
 
 function resetFilter() {
-  render();
-  setTimeout(() => {
-    document.getElementById('table').scrollIntoView({ behavior: 'smooth' });
-  }, 100);
-  let title = document.getElementById('dataUnitTitle');
-  if (title) title.innerText = 'Data Unit Kerja';
+render();
+setTimeout(() => {
+document.getElementById('table').scrollIntoView({ behavior: 'smooth' });
+}, 100);
+let title = document.getElementById('dataUnitTitle');
+if (title) title.innerText = 'Data Unit Kerja';
 }
 
 function renderTable(filteredData = data) {
-  let rows = '';
-  
-  if (!showScore) {
-    rows = `<tr><th>Unit</th><th>Kategori</th><th>Status</th><th>Trend</th></tr>`;
-    
-    filteredData.forEach((d) => {
-      let cat = getCategory(d.tw[activeTW]);
-      let statusClass = d.tw[activeTW] >= 85 ? 'good' : (d.tw[activeTW] >= 75 ? 'warn' : 'bad');
-      let statusLabel = d.tw[activeTW] >= 85 ? 'Baik' : (d.tw[activeTW] >= 75 ? 'Perhatian' : 'Bermasalah');
-      let prevTW = activeTW > 0 ? activeTW - 1 : activeTW;
-      let trendIcon = d.tw[activeTW] > d.tw[prevTW] ? '↑' : (d.tw[activeTW] < d.tw[prevTW] ? '↓' : '=');
-      
-      rows += `<tr style="background:rgba(16,185,129,0.05)">
-        <td>${d.name}</td>
-        <td>${cat.charAt(0).toUpperCase() + cat.slice(1)}</td>
-        <td><span class="badge ${statusClass}">${statusLabel}</span></td>
-        <td>${trendIcon}</td>
-      </tr>`;
-    });
-  } else {
-    let twNames = ['TW I', 'TW II', 'TW III', 'TW IV'];
-    rows = `<tr><th>Unit</th><th>${twNames[activeTW]}</th><th>Status</th></tr>`;
-    
-    filteredData.forEach((d) => {
-      let cat = getCategory(d.tw[activeTW]);
-      rows += `<tr>
-        <td>${d.name}</td>
-        <td>${d.tw[activeTW]}</td>
-        <td><span class="badge ${cat}">${cat.charAt(0).toUpperCase() + cat.slice(1)}</span></td>
-      </tr>`;
-    });
-  }
-  
-  document.getElementById('table').innerHTML = rows;
+let rows = '';
+
+if (!showScore) {
+rows = `<tr><th>Unit</th><th>Kategori</th><th>Status</th><th>Trend</th></tr>`;
+
+filteredData.forEach((d) => {
+let cat = getCategory(d.tw[activeTW]);
+let statusClass = d.tw[activeTW] >= 85 ? 'good' : (d.tw[activeTW] >= 75 ? 'warn' : 'bad');
+let statusLabel = d.tw[activeTW] >= 85 ? 'Baik' : (d.tw[activeTW] >= 75 ? 'Perhatian' : 'Bermasalah');
+let prevTW = activeTW > 0 ? activeTW - 1 : activeTW;
+let trendIcon = d.tw[activeTW] > d.tw[prevTW] ? '↑' : (d.tw[activeTW] < d.tw[prevTW] ? '↓' : '=');
+
+rows += `<tr style="background:rgba(16,185,129,0.05)">
+<td>${d.name}</td>
+<td>${cat.charAt(0).toUpperCase() + cat.slice(1)}</td>
+<td><span class="badge ${statusClass}">${statusLabel}</span></td>
+<td>${trendIcon}</td>
+</tr>`;
+});
+} else {
+let twNames = ['TW I', 'TW II', 'TW III', 'TW IV'];
+rows = `<tr><th>Unit</th><th>${twNames[activeTW]}</th><th>Status</th></tr>`;
+
+filteredData.forEach((d) => {
+let cat = getCategory(d.tw[activeTW]);
+rows += `<tr>
+<td>${d.name}</td>
+<td>${d.tw[activeTW]}</td>
+<td><span class="badge ${cat}">${cat.charAt(0).toUpperCase() + cat.slice(1)}</span></td>
+</tr>`;
+});
+}
+
+document.getElementById('table').innerHTML = rows;
 }
 
 function renderRiskFlag() {
-  let critical = data
-    .filter(d => d.tw[activeTW] < 75 && d.tw[activeTW] > 0)
-    .sort((a, b) => a.tw[activeTW] - b.tw[activeTW]);
-  
-  let risks = [];
-  
-  if (critical.length > 0) {
-    risks = critical;
-  } else {
-    risks = [...data]
-      .filter(d => d.tw[activeTW] > 0)
-      .sort((a, b) => a.tw[activeTW] - b.tw[activeTW])
-      .slice(0, 5);
-  }
-  
-  document.getElementById('riskFlag').innerHTML = risks
-    .map(d => {
-      let label = getCategory(d.tw[activeTW]);
-      return `<li>${d.name} – ${label}</li>`;
-    })
-    .join('');
+let critical = data
+.filter(d => d.tw[activeTW] < 75 && d.tw[activeTW] > 0)
+.sort((a, b) => a.tw[activeTW] - b.tw[activeTW]);
+
+let risks = [];
+
+if (critical.length > 0) {
+risks = critical;
+} else {
+risks = [...data]
+.filter(d => d.tw[activeTW] > 0)
+.sort((a, b) => a.tw[activeTW] - b.tw[activeTW])
+.slice(0, 5);
+}
+
+document.getElementById('riskFlag').innerHTML = risks
+.map(d => {
+let label = getCategory(d.tw[activeTW]);
+return `<li>${d.name} – ${label}</li>`;
+})
+.join('');
 }
 
 function openForm() {
-  editIndex = null;
-  document.getElementById('formTitle').innerText = 'Tambah Data Baru';
-  document.getElementById('f_name').value = '';
-  document.getElementById('f_dir').value = '';
-  document.getElementById('f_tw1').value = '';
-  document.getElementById('f_tw2').value = '';
-  document.getElementById('f_tw3').value = '';
-  document.getElementById('f_tw4').value = '';
-  document.getElementById('formModal').style.display = 'flex';
+editIndex = null;
+document.getElementById('formTitle').innerText = 'Tambah Data Baru';
+document.getElementById('f_name').value = '';
+document.getElementById('f_dir').value = '';
+document.getElementById('f_tw1').value = '';
+document.getElementById('f_tw2').value = '';
+document.getElementById('f_tw3').value = '';
+document.getElementById('f_tw4').value = '';
+document.getElementById('formModal').style.display = 'flex';
 }
 
 function closeForm() {
-  document.getElementById('formModal').style.display = 'none';
+document.getElementById('formModal').style.display = 'none';
 }
 
 function saveData() {
-  let unit_kerja = document.getElementById('f_name').value.trim();
-  let dir = document.getElementById('f_dir').value.trim();
-  let tw1 = parseFloat(document.getElementById('f_tw1').value);
-  let tw2 = parseFloat(document.getElementById('f_tw2').value);
-  let tw3 = parseFloat(document.getElementById('f_tw3').value);
-  let tw4 = parseFloat(document.getElementById('f_tw4').value);
-  
-  if (!unit_kerja || !dir || isNaN(tw1) || isNaN(tw2) || isNaN(tw3) || isNaN(tw4)) {
-    alert('Isi semua field dengan benar');
-    return;
-  }
-  
-  appendToGoogleSheets(unit_kerja, dir, tw1, tw2, tw3, tw4);
-  closeForm();
+let unit_kerja = document.getElementById('f_name').value.trim();
+let dir = document.getElementById('f_dir').value.trim();
+let tw1 = parseFloat(document.getElementById('f_tw1').value);
+let tw2 = parseFloat(document.getElementById('f_tw2').value);
+let tw3 = parseFloat(document.getElementById('f_tw3').value);
+let tw4 = parseFloat(document.getElementById('f_tw4').value);
+
+if (!unit_kerja || !dir || isNaN(tw1) || isNaN(tw2) || isNaN(tw3) || isNaN(tw4)) {
+alert('Isi semua field dengan benar');
+return;
+}
+
+appendToGoogleSheets(unit_kerja, dir, tw1, tw2, tw3, tw4);
+closeForm();
 }
 
 function filterTable(k) {
-  k = k.toLowerCase();
-  let twNames = ['TW I', 'TW II', 'TW III', 'TW IV'];
-  let rows = `<tr><th>Unit</th><th>${twNames[activeTW]}</th><th>Status</th></tr>`;
-  data.forEach((d) => {
-    if (d.name.toLowerCase().includes(k)) {
-      let cat = getCategory(d.tw[activeTW]);
-      rows += `<tr><td>${d.name}</td><td>${showScore ? d.tw[activeTW] : '-'}</td><td><span class="badge ${cat}">${cat}</span></td></tr>`;
-    }
-  });
-  document.getElementById('table').innerHTML = rows;
+k = k.toLowerCase();
+let twNames = ['TW I', 'TW II', 'TW III', 'TW IV'];
+let rows = `<tr><th>Unit</th><th>${twNames[activeTW]}</th><th>Status</th></tr>`;
+data.forEach((d) => {
+if (d.name.toLowerCase().includes(k)) {
+let cat = getCategory(d.tw[activeTW]);
+rows += `<tr><td>${d.name}</td><td>${showScore ? d.tw[activeTW] : '-'}</td><td><span class="badge ${cat}">${cat}</span></td></tr>`;
+}
+});
+document.getElementById('table').innerHTML = rows;
 }
 
 function setTW(i) {
-  activeTW = i;
-  render();
+activeTW = i;
+render();
 }
 
 function setYear(y) {
-  activeYear = y;
-  syncData(); // Re-sync when year changes
+activeYear = y;
+syncData(); // Re-sync when year changes
 }
 
 function toggleScore() {
-  showScore = document.getElementById('toggleScore').checked;
-  render();
+showScore = document.getElementById('toggleScore').checked;
+render();
 }
 
 // INIT - Auto sync on page load
 document.addEventListener('DOMContentLoaded', function() {
-  syncData();
-  // Auto-sync every 30 seconds
-  setInterval(syncData, 30000);
+syncData();
+// Auto-sync every 30 seconds
+setInterval(syncData, 30000);
 });
 
 </script>
 </body>
 </html>
+
+
