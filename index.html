@@ -453,7 +453,8 @@ function renderTable(filteredData = data) {
       let cat = getCategory(d.tw[activeTW]);
       let statusClass = d.tw[activeTW] >= 85 ? 'good' : (d.tw[activeTW] >= 75 ? 'warn' : 'bad');
       let statusLabel = d.tw[activeTW] >= 85 ? 'Baik' : (d.tw[activeTW] >= 75 ? 'Perhatian' : 'Bermasalah');
-      let trendIcon = d.tw[activeTW] > d.tw[activeTW] ? '↑' : (d.tw[activeTW] < d.tw[activeTW] ? '↓' : '→');
+      let prevTW = activeTw > 0 ? activeTW - 1 : activeTW;
+      let trendIcon = d.tw[activeTW] > d.tw[prevTW] ? '↑' : (d.tw[activeTW] < d.tw[prevTW] ? '↓' : '=');
       
       rows += `<tr style="background:rgba(16,185,129,0.05)">
         <td>${d.name}</td>
