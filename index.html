@@ -63,7 +63,7 @@ input{margin:4px 0;padding:8px;width:100%;background:#1a2235;color:var(--text);b
 </div>
 </h1>
 
-<button class="btn-add" onclick="openForm()">+ Tambah Data</button>
+
 
 <div class="card">
 <div class="big" id="overall"></div>
@@ -139,27 +139,14 @@ input{margin:4px 0;padding:8px;width:100%;background:#1a2235;color:var(--text);b
 </div>
 </div>
 
-<!-- FORM MODAL -->
-<div class="modal" id="formModal">
-<div class="modal-box">
-<h3 id="formTitle">Tambah Data Baru</h3>
-<input id="f_name" placeholder="Nama Unit Kerja">
-<input id="f_dir" placeholder="Direktorat">
-<input id="f_tw1" placeholder="TW1" type="number" step="0.01">
-<input id="f_tw2" placeholder="TW2" type="number" step="0.01">
-<input id="f_tw3" placeholder="TW3" type="number" step="0.01">
-<input id="f_tw4" placeholder="TW4" type="number" step="0.01">
-<button class="btn-add" onclick="saveData()">Simpan ke Google Sheets</button>
-<button onclick="closeForm()">Batal</button>
-</div>
-</div>
+
 
 <script>
 // ============= CONFIG - CHANGE THIS URL =============
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbws0gYOXxpfWKL8W0X3lV85I3uzXAop_LjiOuLBoXWEWFCfTqzKej9MchJ5o88kdaehBg/exec';
 
 let data = [];
-let editIndex = null;
+
 let trendChart, dirChart;
 let trendFilter = null;
 let showScore = false;
@@ -212,40 +199,7 @@ isConnected = false;
 });
 }
 
-function appendToGoogleSheets(unit_kerja, dir, tw1, tw2, tw3, tw4) {
-document.getElementById('loadingSpinner').style.display = 'block';
 
-const formData = new FormData();
-formData.append('action', 'add');
-formData.append('unit_kerja', unit_kerja);
-formData.append('dir', dir);
-formData.append('tahun', activeYear);
-formData.append('tw1', tw1);
-formData.append('tw2', tw2);
-formData.append('tw3', tw3);
-formData.append('tw4', tw4);
-
-fetch(APPS_SCRIPT_URL, {
-method: 'POST',
-body: formData
-})
-.then(response => response.json())
-.then(result => {
-document.getElementById('loadingSpinner').style.display = 'none';
-if (result.success) {
-console.log('Data added successfully');
-alert('Data berhasil ditambahkan!');
-syncData();
-} else {
-alert('Error: ' + result.message);
-}
-})
-.catch(error => {
-document.getElementById('loadingSpinner').style.display = 'none';
-console.error('Error:', error);
-alert('Error adding data: ' + error.message);
-});
-}
 
 // ============= DASHBOARD LOGIC =============
 function calcAverage() {
@@ -505,38 +459,9 @@ return `<li>${d.name} – ${label}</li>`;
 .join('');
 }
 
-function openForm() {
-editIndex = null;
-document.getElementById('formTitle').innerText = 'Tambah Data Baru';
-document.getElementById('f_name').value = '';
-document.getElementById('f_dir').value = '';
-document.getElementById('f_tw1').value = '';
-document.getElementById('f_tw2').value = '';
-document.getElementById('f_tw3').value = '';
-document.getElementById('f_tw4').value = '';
-document.getElementById('formModal').style.display = 'flex';
-}
 
-function closeForm() {
-document.getElementById('formModal').style.display = 'none';
-}
 
-function saveData() {
-let unit_kerja = document.getElementById('f_name').value.trim();
-let dir = document.getElementById('f_dir').value.trim();
-let tw1 = parseFloat(document.getElementById('f_tw1').value);
-let tw2 = parseFloat(document.getElementById('f_tw2').value);
-let tw3 = parseFloat(document.getElementById('f_tw3').value);
-let tw4 = parseFloat(document.getElementById('f_tw4').value);
 
-if (!unit_kerja || !dir || isNaN(tw1) || isNaN(tw2) || isNaN(tw3) || isNaN(tw4)) {
-alert('Isi semua field dengan benar');
-return;
-}
-
-appendToGoogleSheets(unit_kerja, dir, tw1, tw2, tw3, tw4);
-closeForm();
-}
 
 function filterTable(k) {
 k = k.toLowerCase();
